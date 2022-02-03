@@ -873,7 +873,10 @@ class TransitTelescope(config.Reader, ctime.Observer, metaclass=abc.ABCMeta):
             freq = self.frequencies
         else:
             freq = self.frequencies[f_indices]
-        return np.ones_like(freq) * self.tsys_flat
+        #return np.ones_like(freq) * self.tsys_flat
+        t_BG = .1 * (freq/1400)**2.75
+        return (np.ones_like(freq) * t_BG + np.ones_like(freq) * 2.73 + 
+                np.ones_like(freq) * self.tsys_flat + np.ones_like(freq) * 7.)
 
     def noisepower(self, bl_indices, f_indices, ndays=None):
         """Calculate the instrumental noise power spectrum.
